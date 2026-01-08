@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>🛒 Listas de Compras</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --primary: #4f46e5;
+  --secondary: #6366f1;
+  --danger: #ef4444;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+body.dark {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  background: var(--card);
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+button {
+  border: none;
+  padding: .6rem 1rem;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+}
+
+button.secondary { background: var(--secondary); }
+button.danger { background: var(--danger); }
+
+main {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.lists-panel, .list-detail {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.lists-panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+.lists-panel li {
+  padding: .6rem;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: .4rem;
+}
+
+.lists-panel li.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+.hidden { display: none; }
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: .5rem;
+  margin: 1rem 0;
+}
+
+form input {
+  padding: .6rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+}
+
+#productsList {
+  list-style: none;
+  padding: 0;
+}
+
+#productsList li {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: .4rem;
+  align-items: center;
+  padding: .5rem;
+  border-radius: 12px;
+  background: rgba(0,0,0,.04);
+  margin-bottom: .4rem;
+}
+
+#productsList input {
+  width: 100%;
+  padding: .3rem;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+}
+
+.total {
+  text-align: right;
+  font-size: 1.3rem;
+  margin-top: 1rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+}
+
+@media (max-width: 768px) {
+  main { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🛒 Listas de Compras</h1>
+  <div>
+    <button id="newListBtn">➕ Nueva Lista</button>
+    <button id="toggleTheme">🌙</button>
+  </div>
+</header>
+
+<main>
+  <aside class="lists-panel">
+    <h3>Mis Listas</h3>
+    <ul id="listsContainer"></ul>
+  </aside>
+
+  <section class="list-detail">
+    <div id="listEmpty" class="empty">Selecciona o crea una lista ✨</div>
+
+    <div id="listContent" class="hidden">
+      <div class="list-header">
+        <div>
+          <h2 id="listTitle"></h2>
+          <small id="listDate"></small>
+        </div>
+        <strong id="listStatus"></strong>
+      </div>
+
+      <form id="productForm">
+        <input id="productName" placeholder="Producto" required>
+        <input id="productQty" type="number" min="1" placeholder="Cantidad" required>
+        <input id="productPrice" type="number" min="0" step="0.01" placeholder="Costo $" required>
+        <button>Agregar</button>
+      </form>
+
+      <ul id="productsList"></ul>
+
+      <div class="total">
+        TOTAL: <span id="totalAmount">$0.00</span>
+      </div>
+
+      <div class="actions">
+        <button id="closeListBtn">Cerrar Lista</button>
+        <button id="reopenListBtn" class="secondary hidden">Reabrir</button>
+        <button id="deleteListBtn" class="danger">Eliminar Lista</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+let lists = JSON.parse(localStorage.getItem('shoppingLists')) || {};
+let currentListId = null;
+
+const save = () => localStorage.setItem('shoppingLists', JSON.stringify(lists));
+const money = v => v.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' });
+
+const qs = id => document.getElementById(id);
+
+function renderLists() {
+  qs('listsContainer').innerHTML = '';
+  Object.entries(lists).forEach(([id, l]) => {
+    const li = document.createElement('li');
+    li.textContent = l.name + (l.closed ? ' 🔒' : '');
+    if (id === currentListId) li.classList.add('active');
+    li.onclick = () => openList(id);
+    qs('listsContainer').appendChild(li);
+  });
+}
+
+function openList(id) {
+  currentListId = id;
+  const l = lists[id];
+  qs('listEmpty').classList.add('hidden');
+  qs('listContent').classList.remove('hidden');
+  qs('listTitle').textContent = l.name;
+  qs('listDate').textContent = `Creada: ${l.date}`;
+  qs('listStatus').textContent = l.closed ? '🔒 Cerrada' : '🟢 Abierta';
+  qs('reopenListBtn').classList.toggle('hidden', !l.closed);
+  renderProducts();
+  renderLists();
+}
+
+function renderProducts() {
+  const l = lists[currentListId];
+  qs('productsList').innerHTML = '';
+  let total = 0;
+
+  l.products.forEach((p, i) => {
+    const sub = p.qty * p.price;
+    total += sub;
+
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <span>${p.name}</span>
+      <input type="number" min="1" value="${p.qty}" ${l.closed ? 'disabled' : ''}>
+      <input type="number" min="0" step="0.01" value="${p.price}" ${l.closed ? 'disabled' : ''}>
+      <strong>${money(sub)}</strong>
+      <button ${l.closed ? 'disabled' : ''}>❌</button>
+    `;
+
+    const [qtyInput, priceInput] = li.querySelectorAll('input');
+
+    qtyInput.oninput = () => {
+      p.qty = +qtyInput.value;
+      save(); renderProducts();
+    };
+
+    priceInput.oninput = () => {
+      p.price = +priceInput.value;
+      save(); renderProducts();
+    };
+
+    li.querySelector('button').onclick = () => {
+      l.products.splice(i, 1);
+      save(); renderProducts();
+    };
+
+    qs('productsList').appendChild(li);
+  });
+
+  qs('totalAmount').textContent = money(total);
+}
+
+qs('newListBtn').onclick = () => {
+  const name = prompt('Nombre de la lista');
+  if (!name) return;
+  const id = Date.now().toString();
+  lists[id] = { name, date: new Date().toLocaleDateString(), closed: false, products: [] };
+  save(); openList(id);
+};
+
+qs('productForm').onsubmit = e => {
+  e.preventDefault();
+  const l = lists[currentListId];
+  if (l.closed) return;
+
+  l.products.push({
+    name: productName.value,
+    qty: +productQty.value,
+    price: +productPrice.value
+  });
+
+  e.target.reset();
+  save(); renderProducts();
+};
+
+qs('closeListBtn').onclick = () => {
+  lists[currentListId].closed = true;
+  save(); openList(currentListId);
+};
+
+qs('reopenListBtn').onclick = () => {
+  lists[currentListId].closed = false;
+  save(); openList(currentListId);
+};
+
+qs('deleteListBtn').onclick = () => {
+  if (!confirm('¿Eliminar esta lista?')) return;
+  delete lists[currentListId];
+  currentListId = null;
+  save();
+  qs('listContent').classList.add('hidden');
+  qs('listEmpty').classList.remove('hidden');
+  renderLists();
+};
+
+qs('toggleTheme').onclick = () => document.body.classList.toggle('dark');
+
+renderLists();
+</script>
+
+</body>
+</html>
