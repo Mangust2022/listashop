@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Control Bancario</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --primary:#0a2a43;
+  --secondary:#1c4e80;
+  --expense:#b02a37;
+  --bg:#f4f6f8;
+  --card:#ffffff;
+}
+*{box-sizing:border-box;font-family:Segoe UI,sans-serif}
+body{margin:0;background:var(--bg);display:flex;min-height:100vh}
+
+/* LOGIN */
+#login{
+  position:fixed; inset:0;
+  background:#0a2a43;
+  display:flex; align-items:center; justify-content:center;
+  z-index:100;
+}
+#login-box{
+  background:#fff; padding:30px;
+  border-radius:10px; width:300px;
+  text-align:center;
+}
+#login-box input{width:100%;padding:10px;margin:15px 0}
+
+/* SIDEBAR */
+.sidebar{
+  width:260px;
+  background:var(--primary);
+  color:#fff;
+  padding:20px;
+  overflow-y:auto;
+}
+.year{
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:12px;
+}
+.month{
+  margin-left:15px;
+  cursor:pointer;
+  font-size:14px;
+  opacity:.85;
+}
+.month:hover,.year:hover{text-decoration:underline}
+
+/* MAIN */
+.main{flex:1;padding:20px}
+.header{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  gap:10px;
+}
+.balance{
+  background:var(--card);
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:18px;
+  font-weight:bold;
+}
+button{
+  padding:10px 16px;
+  background:var(--secondary);
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+button.alt{background:#555}
+button.danger{background:var(--expense)}
+
+.table{margin-top:20px}
+.movement{
+  background:#fff;
+  border-left:6px solid var(--expense);
+  padding:14px;
+  border-radius:8px;
+  margin-bottom:12px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+.amount{color:var(--expense);font-weight:bold}
+.actions button{font-size:12px;padding:6px 10px;margin-left:4px}
+
+/* MODAL */
+.modal{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.5);
+  display:none; align-items:center; justify-content:center;
+}
+.modal-content{
+  background:#fff;
+  padding:20px;
+  width:95%;
+  max-width:600px;
+  border-radius:10px;
+}
+form{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+form textarea{grid-column:span 2}
+.modal-footer{text-align:right;grid-column:span 2}
+
+@media(max-width:768px){
+  .sidebar{display:none}
+  form{grid-template-columns:1fr}
+}
+@media print{
+  #login,.sidebar,button,select{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div id="login-box">
+    <h3>Acceso al sistema</h3>
+    <input type="password" id="pinInput" placeholder="Ingrese PIN">
+    <button onclick="login()">Ingresar</button>
+    <p id="loginError" style="color:red"></p>
+  </div>
+</div>
+
+<div class="sidebar">
+  <h3>Movimientos</h3>
+  <div id="sidebar"></div>
+</div>
+
+<div class="main">
+  <div class="header">
+    <div class="balance">Total gastado: $<span id="balance">0.00</span></div>
+    <div>
+      <select id="personFilter" onchange="renderMovements()">
+        <option value="">Todas las personas</option>
+      </select>
+      <button onclick="openModal()">Nuevo gasto</button>
+      <button class="alt" onclick="window.print()">Imprimir</button>
+    </div>
+  </div>
+
+  <div class="table" id="movements"></div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3>Nuevo Gasto</h3>
+    <form id="form">
+      <input type="hidden" id="type" value="Egreso">
+
+      <select id="subtype" required>
+        <option value="">Tipo de gasto</option>
+      </select>
+
+      <input id="amount" type="number" step="0.01" placeholder="Monto" required>
+      <input id="date" type="date" required>
+
+      <input id="time" type="time" required>
+      <input id="reference" placeholder="Referencia" required>
+
+      <input id="person" placeholder="Persona destino" required>
+
+      <textarea id="description" placeholder="Descripción" required></textarea>
+      <textarea id="notes" placeholder="Observaciones"></textarea>
+
+      <div class="modal-footer">
+        <button type="button" onclick="closeModal()">Cancelar</button>
+        <button type="submit">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ==== SEGURIDAD ==== */
+const PIN_ADMIN="1658";
+const PIN_USER="1659";
+let role=null;
+
+/* ==== DOM ==== */
+const movementsDiv=document.getElementById("movements");
+const balanceSpan=document.getElementById("balance");
+const sidebarDiv=document.getElementById("sidebar");
+const modal=document.getElementById("modal");
+
+/* ==== DATA ==== */
+let movements=JSON.parse(localStorage.getItem("movements")||"[]");
+let filter={year:null,month:null};
+
+/* ==== LOGIN ==== */
+function login(){
+  const pin=pinInput.value;
+  if(pin===PIN_ADMIN) role="admin";
+  else if(pin===PIN_USER) role="user";
+  else{
+    loginError.textContent="PIN incorrecto";
+    return;
+  }
+  document.getElementById("login").style.display="none";
+  renderAll();
+}
+
+/* ==== SUBTIPOS ==== */
+const subtypes=["Transferencia","Retiro en cajero","Retiro sin tarjeta","Pago de servicio","Compra"];
+
+subtypes.forEach(s=>{
+  const o=document.createElement("option");
+  o.value=o.textContent=s;
+  subtype.appendChild(o);
+});
+
+/* ==== MODAL ==== */
+function openModal(){
+  document.getElementById("form").reset();
+  modal.style.display="flex";
+}
+function closeModal(){modal.style.display="none"}
+
+/* ==== GUARDAR ==== */
+form.onsubmit=e=>{
+  e.preventDefault();
+  movements.push({
+    id:crypto.randomUUID(),
+    subtype:subtype.value,
+    amount:+amount.value,
+    date:date.value,
+    time:time.value,
+    reference:reference.value,
+    person:person.value,
+    description:description.value,
+    notes:notes.value
+  });
+  save();
+  closeModal();
+};
+
+/* ==== ELIMINAR (ADMIN) ==== */
+function deleteMove(id){
+  if(role!=="admin") return alert("Solo admin puede eliminar");
+  if(confirm("¿Eliminar gasto?")){
+    movements=movements.filter(m=>m.id!==id);
+    save();
+  }
+}
+
+/* ==== SIDEBAR ==== */
+function renderSidebar(){
+  sidebarDiv.innerHTML="";
+  const map={};
+
+  movements.forEach(m=>{
+    const d=new Date(m.date);
+    const y=d.getFullYear();
+    const mo=d.getMonth();
+    map[y]=map[y]||{};
+    map[y][mo]=true;
+  });
+
+  Object.keys(map).sort((a,b)=>b-a).forEach(y=>{
+    const yDiv=document.createElement("div");
+    yDiv.className="year";
+    yDiv.textContent=y;
+    yDiv.onclick=()=>{filter={year:+y,month:null};renderMovements()};
+    sidebarDiv.appendChild(yDiv);
+
+    Object.keys(map[y]).forEach(m=>{
+      const mDiv=document.createElement("div");
+      mDiv.className="month";
+      mDiv.textContent=new Date(y,m).toLocaleString("es",{month:"long"});
+      mDiv.onclick=()=>{filter={year:+y,month:+m};renderMovements()};
+      sidebarDiv.appendChild(mDiv);
+    });
+  });
+}
+
+/* ==== FILTRO PERSONA ==== */
+function renderPersonFilter(){
+  const select=document.getElementById("personFilter");
+  select.innerHTML="<option value=''>Todas las personas</option>";
+  [...new Set(movements.map(m=>m.person))].forEach(p=>{
+    const o=document.createElement("option");
+    o.value=o.textContent=p;
+    select.appendChild(o);
+  });
+}
+
+/* ==== MOVIMIENTOS ==== */
+function renderMovements(){
+  movementsDiv.innerHTML="";
+  let total=0;
+  const personFilter=document.getElementById("personFilter").value;
+
+  movements.filter(m=>{
+    const d=new Date(m.date);
+    if(filter.year && d.getFullYear()!=filter.year) return false;
+    if(filter.month!=null && d.getMonth()!=filter.month) return false;
+    if(personFilter && m.person!==personFilter) return false;
+    return true;
+  }).forEach(m=>{
+    total+=m.amount;
+    movementsDiv.innerHTML+=`
+      <div class="movement">
+        <div>
+          <b>${m.subtype}</b><br>
+          ${m.date} ${m.time}<br>
+          ${m.description}<br>
+          <small>Persona: ${m.person}</small>
+        </div>
+        <div>
+          <div class="amount">-$${m.amount.toFixed(2)}</div>
+          ${role==="admin"?`
+          <div class="actions">
+            <button class="danger" onclick="deleteMove('${m.id}')">Eliminar</button>
+          </div>`:""}
+        </div>
+      </div>`;
+  });
+
+  balanceSpan.textContent=total.toFixed(2);
+}
+
+/* ==== GUARDAR ==== */
+function save(){
+  localStorage.setItem("movements",JSON.stringify(movements));
+  renderAll();
+}
+function renderAll(){
+  renderSidebar();
+  renderPersonFilter();
+  renderMovements();
+}
+</script>
+
+</body>
+</html>
