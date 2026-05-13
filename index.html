@@ -2,309 +2,463 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Adicción a las redes sociales y la adolescencia</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATELOG</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/jsmediatags@3.9.7/dist/jsmediatags.min.js"></script>
+<link rel="icon" href="img/Nico.png" type="image/png">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --verde:#1db954;
-  --oscuro:#121212;
-  --claro:#ffffff;
-  --gris:#b3b3b3;
-}
-
-*{
-  box-sizing:border-box;
-  font-family:'Inter', sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 
 body{
-  margin:0;
-  min-height:100vh;
+  background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea, #4dd0e1);
+  background-attachment: fixed;
+  color:#023047;
+}
+
+/* HERO */
+.hero{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   background:
-    linear-gradient(
-      rgba(11,61,46,0.7),
-      rgba(18,18,18,0.85)
-    ),
-    url("https://pbs.twimg.com/media/BzBge5HIgAE7uY_.jpg");
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
+    url('img/fondo.png');
   background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
-  color:var(--claro);
 }
 
-/* CONTENEDOR */
-.player-container{
-  display:flex;
-  justify-content:center;
-  padding:24px;
-}
-
-/* TARJETA */
-.player-card{
-  width:100%;
-  max-width:420px;
-  background:rgba(0,0,0,0.65);
-  backdrop-filter:blur(10px);
-  border-radius:26px;
-  padding:24px;
-  box-shadow:0 30px 60px rgba(0,0,0,.7);
-}
-
-/* HEADER */
-.header{
+.overlay{
   text-align:center;
-  margin-bottom:18px;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(12px);
+  padding:50px;
+  border-radius:30px;
+  color:white;
 }
 
-.header h1{
-  font-size:1.35rem;
-  margin-bottom:6px;
+/* LOGO NUEVO */
+.logo{
+  width:80px;
+  margin-bottom:15px;
+  opacity:0.95;
 }
 
-.header p{
-  font-size:.9rem;
-  color:var(--gris);
-}
+.overlay h1{font-size:3.5rem}
 
-/* PORTADA */
-.cover-wrapper img{
-  width:100%;
-  border-radius:18px;
-  box-shadow:0 18px 40px rgba(0,0,0,.6);
-}
-
-/* BARRA PROGRESO */
-.image-progress{
-  margin-top:14px;
-}
-
-.image-progress input{
-  width:100%;
-}
-
-.time-row{
-  display:flex;
-  justify-content:space-between;
-  font-size:.75rem;
-  color:var(--gris);
-  margin-top:4px;
-}
-
-/* INFO */
-.track-info{
-  text-align:center;
-  margin-top:18px;
-}
-
-.track-info h2{
-  font-size:1.05rem;
-  margin:0;
-}
-
-.track-info p{
-  font-size:.85rem;
-  margin-top:6px;
-  color:var(--gris);
-}
-
-/* CONTROLES */
-.controls{
+/* BOTÓN */
+.btn{
   margin-top:20px;
-  text-align:center;
-}
-
-.control-btn{
-  width:64px;
-  height:64px;
-  border-radius:50%;
-  background:var(--verde);
+  padding:15px 35px;
   border:none;
-  font-size:26px;
+  border-radius:40px;
+  background:#00b4d8;
+  color:white;
   cursor:pointer;
-  transition:.3s;
-}
-
-.control-btn:hover{
-  transform:scale(1.1);
-}
-
-/* VOLUMEN */
-.volume-container{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin-top:14px;
-  font-size:.9rem;
-}
-
-/* PDF */
-.extra-actions{
-  text-align:center;
-  margin-top:22px;
-}
-
-.pdf-btn{
-  background:transparent;
-  border:1px solid var(--verde);
-  color:var(--verde);
-  padding:10px 24px;
-  border-radius:24px;
-  cursor:pointer;
-  transition:.3s;
-}
-
-.pdf-btn:hover{
-  background:var(--verde);
-  color:black;
-}
-
-/* MODAL PDF */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:100;
-}
-
-.modal-content{
-  width:95%;
-  height:90%;
-  background:black;
-  border-radius:20px;
-  overflow:hidden;
   position:relative;
+  overflow:hidden;
 }
 
-.modal-content iframe{
+.btn::after{
+  content:'';
+  position:absolute;
+  top:0;
+  left:-100%;
   width:100%;
   height:100%;
-  border:none;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+  transition:0.5s;
 }
 
-.close-btn{
-  position:absolute;
-  top:12px;
-  right:12px;
-  background:var(--verde);
-  border:none;
-  width:36px;
-  height:36px;
-  border-radius:50%;
+.btn:hover::after{
+  left:100%;
+}
+
+/* SECCIONES */
+section{
+  padding:90px 10%;
+  animation: fadeInUp 1s ease;
+}
+
+h2{text-align:center;margin-bottom:40px}
+
+@keyframes fadeInUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* CARDS */
+.card-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 15px 35px rgba(0,0,0,0.1);
+}
+
+/* MASCOTAS */
+.flip-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:30px;
+}
+
+.flip-card{
+  perspective:1000px;
   cursor:pointer;
-  font-weight:bold;
+  border-radius:20px;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* RESPONSIVE */
-@media(max-width:480px){
-  .player-card{padding:18px}
-  .control-btn{width:58px;height:58px}
+.flip-card:hover{
+  transform: translateY(-10px) scale(1.03);
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
 }
+
+.flip-inner{
+  position:relative;
+  width:100%;
+  height:260px;
+  transition:transform 0.6s;
+  transform-style:preserve-3d;
+}
+
+.flip-card.active .flip-inner{
+  transform:rotateY(180deg);
+}
+
+.flip-front, .flip-back{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:20px;
+  backface-visibility:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  padding:20px;
+}
+
+.flip-front{
+  background: linear-gradient(145deg, #ffffff, #e6f7ff);
+  border: 2px solid #00b4d8;
+}
+
+.flip-front img{
+  width:100px;
+  margin-bottom:10px;
+}
+
+.flip-back{
+  background: linear-gradient(145deg, #00b4d8, #0077b6);
+  color:white;
+  transform:rotateY(180deg);
+}
+
+/* GALERÍA */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:25px;
+}
+
+.gallery-item{
+  height:260px;
+  border-radius:25px;
+  overflow:hidden;
+  cursor:pointer;
+}
+
+.gallery-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:0.5s;
+}
+
+.gallery-item:hover img{
+  transform:scale(1.1);
+
+}
+
+/* LIGHTBOX */
+.lightbox{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+.lightbox img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:20px;
+}
+
+.lightbox span{
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:40px;
+  color:white;
+  cursor:pointer;
+}
+
+/* DESCARGA */
+.download{
+  text-align:center;
+  padding:140px 20px;
+  border-radius:40px;
+  color:white;
+  background:
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
+    url('img/fondo.png');
+  background-size:cover;
+  background-position:center;
+}
+
+.download button{
+  padding:18px 60px;
+  border:none;
+  border-radius:50px;
+  background:white;
+  color:#0077b6;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+footer{
+  background:#023047;
+  color:white;
+  text-align:center;
+  padding:25px;
+}
+
+
+
 </style>
 </head>
 
 <body>
 
-<main class="player-container">
-  <section class="player-card">
+<header class="hero">
+  <div class="overlay">
 
-    <header class="header">
-      <h1>🎧 Adicción a las redes sociales y la adolescencia</h1>
-      <p>Proyecto académico · Escuela Secundaria</p>
-    </header>
+    <!-- LOGO AGREGADO -->
+    <img src="img/pandilla.png" class="logo">
 
-    <div class="cover-wrapper">
-      <img src="cover-default.png" id="cover">
-    </div>
+    <h1>MATELOG</h1>
+    <p>Aprende lógica matemática como nunca antes</p>
+    <button class="btn" onclick="scrollToSection()">Comenzar</button>
+  </div>
+</header>
 
-    <div class="image-progress">
-      <input type="range" id="progress" value="0">
-      <div class="time-row">
-        <span id="currentTime">0:00</span>
-        <span id="duration">0:00</span>
+<main>
+
+<section id="info">
+  <h2>¿Qué es MATELOG?</h2>
+  <p style="text-align:center;max-width:700px;margin:auto">
+    Una app educativa interactiva para aprender lógica matemática fácilmente.
+  </p>
+</section>
+
+<section>
+  <h2>Mascotas</h2>
+  <div class="flip-container">
+
+    <div class="flip-card" onclick="this.classList.toggle('active')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="img/Bubi.png">
+          <h3>Bubi</h3>
+        </div>
+        <div class="flip-back">
+          <p>Experto en lógica básica 🧠</p>
+        </div>
       </div>
     </div>
 
-    <div class="track-info">
-      <h2>Adicción a las redes sociales y la adolescencia</h2>
-      <p>Nahomi Rosa Isela Rojas Mejía y Victoria Ayala Pérez</p>
-    </div>
-
-    <div class="controls">
-      <button id="playPause" class="control-btn">▶</button>
-
-      <div class="volume-container">
-        🔊
-        <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+    <div class="flip-card" onclick="this.classList.toggle('active')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="img/Octavio.png">
+          <h3>Octavio</h3>
+        </div>
+        <div class="flip-back">
+          <p>Maestro de los retos difíciles 🔥</p>
+        </div>
       </div>
     </div>
 
-    <div class="extra-actions">
-      <button id="openPdf" class="pdf-btn">📄 Ver guion</button>
+    <div class="flip-card" onclick="this.classList.toggle('active')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="img/Lumo.png">
+          <h3>Lumo</h3>
+        </div>
+        <div class="flip-back">
+          <p>Ilumina tu aprendizaje 💡</p>
+        </div>
+      </div>
     </div>
 
+    <div class="flip-card" onclick="this.classList.toggle('active')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="img/Nico.png">
+          <h3>Nico</h3>
+        </div>
+        <div class="flip-back">
+          <p>Ilumina tu aprendizaje 💡</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section> 
+   <h2>Galería</h2> <div class="gallery-grid">
+     <div class="gallery-item"><img src="img/pic1.png" onclick="openLightbox(this.src)"></div> 
+     <div class="gallery-item"><img src="img/mascotas.png" onclick="openLightbox(this.src)"></div> 
+    </div> 
+    <div class="lightbox" id="lightbox"> <span onclick="closeLightbox()">×</span> <img id="lightbox-img"> </div>
+  
   </section>
+
+
+<section>
+  <h2>Opiniones</h2>
+  <div class="card-container">
+
+    <div class="card">
+      <h3>Azusena Montes Rendon</h3>
+      <p><strong>Asesora del Proyecto</strong></p>
+      <p>"La mejor forma de aprender lógica, súper clara y divertida."</p>
+      <p>⭐⭐⭐⭐⭐</p>
+    </div>
+
+    <div class="card">
+      <h3>Manuel Rojas</h3>
+      <p><strong>Ingeniero en Tics</strong></p>
+      <p>"Ideal para reforzar conceptos de clase. una expericnia agrabable"</p>
+      <p>⭐⭐⭐⭐⭐</p>
+    </div>
+
+    <div class="card">
+      <h3>Katia Sugeili Aguirre Flores</h3>
+      <p><strong>Estudiante</strong></p>
+      <p>"Muy intuitiva, las lecciones son excelentes."</p>
+      <p>⭐⭐⭐⭐</p>
+    </div>
+  </div>
+<!--seccion 2 de opinions-->
+  <br>
+  <div class="card-container">
+
+    <div class="card">
+      <h3>Katia Sugeili Aguirre Flores</h3>
+      <p><strong>Estudiante</strong></p>
+      <p>"Muy intuitiva, las lecciones son excelentes."</p>
+      <p>⭐⭐⭐⭐</p>
+    </div>
+
+    <div class="card">
+      <h3>Katia Sugeili Aguirre Flores</h3>
+      <p><strong>Estudiante</strong></p>
+      <p>"Muy intuitiva, las lecciones son excelentes."</p>
+      <p>⭐⭐⭐⭐</p>
+    </div>
+
+    <div class="card">
+      <h3>Katia Sugeili Aguirre Flores</h3>
+      <p><strong>Estudiante</strong></p>
+      <p>"Muy intuitiva, las lecciones son excelentes."</p>
+      <p>⭐⭐⭐⭐</p>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+
+<section>
+  <h2>Desarrolladora</h2>
+
+  <div class="card" style="max-width:600px;margin:auto">
+
+    <img src="img/desarrolladora.png" style="width:120px;border-radius:50%;margin-bottom:15px;">
+
+    <h3>Karla Rivera</h3>
+    <p><strong>Estudiante de Ingeniería En Tecnoligas de la Información y Comunicaciones </strong></p>
+
+    <p style="margin-top:15px">
+     Estudiante del Instituto Tecnológico de Tlalpan, cursa la carrera de Ingeniería en Tecnologías de la Información y Comunicaciones, con especialidad en Inteligencia de Datos. Apasionada por la tecnología y la educación, desarrolló MATELOG con el propósito de hacer la lógica matemática más accesible, interactiva y divertida para todos.
+
+Este proyecto forma parte de su residencia profesional, requisito para la obtención de su título, y fue desarrollado en colaboración entre el Instituto Tecnológico de Tlalpan y el Centro Nacional de Investigación y Desarrollo Tecnológico (CENIDET), fortaleciendo así la vinculación académica y la innovación aplicada.
+    </p>
+
+  </div>
+</section>
+
+<section>
+  <div class="download">
+    <h2>Descarga MATELOG</h2>
+    <p>Empieza hoy a aprender lógica matemática</p>
+    <a href="https://github.com/Mangust2022/listashop/raw/refs/heads/main/QRcode.apk" download>
+        <br>
+      <button>Descargar APK</button>
+    </a>
+  </div>
+</section>
+
 </main>
 
-<!-- MODAL PDF -->
-<div id="pdfModal" class="modal">
-  <div class="modal-content">
-    <button id="closePdf" class="close-btn">✖</button>
-    <iframe src="guion.pdf"></iframe>
-  </div>
-</div>
-
-<audio id="audio" src="audio.mp3"></audio>
+<footer>© 2026 MATELOG</footer>
 
 <script>
-const audio = document.getElementById('audio');
-const playPause = document.getElementById('playPause');
-const progress = document.getElementById('progress');
-const currentTimeEl = document.getElementById('currentTime');
-const durationEl = document.getElementById('duration');
-const volume = document.getElementById('volume');
-const modal = document.getElementById('pdfModal');
-
-document.getElementById('openPdf').onclick=()=>modal.style.display='flex';
-document.getElementById('closePdf').onclick=()=>modal.style.display='none';
-
-playPause.onclick=()=>{
-  if(audio.paused){
-    audio.play();
-    playPause.textContent='⏸';
-  }else{
-    audio.pause();
-    playPause.textContent='▶';
-  }
-};
-
-audio.addEventListener('timeupdate',()=>{
-  progress.value=(audio.currentTime/audio.duration)*100 || 0;
-  currentTimeEl.textContent=formato(audio.currentTime);
-});
-
-progress.oninput=()=>{
-  audio.currentTime=(progress.value/100)*audio.duration;
-};
-
-audio.onloadedmetadata=()=>{
-  durationEl.textContent=formato(audio.duration);
-};
-
-volume.oninput=()=>audio.volume=volume.value;
-
-function formato(t){
-  const m=Math.floor(t/60);
-  const s=Math.floor(t%60).toString().padStart(2,'0');
-  return `${m}:${s}`;
+function scrollToSection(){
+  document.getElementById('info').scrollIntoView({behavior:'smooth'});
 }
+
+function openLightbox(src){
+  document.getElementById('lightbox').style.display="flex";
+  document.getElementById('lightbox-img').src=src;
+}
+
+function closeLightbox(){
+  document.getElementById('lightbox').style.display="none";
+}
+
+/* VOLVER ARRIBA AL RECARGAR */
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
+};
+
+window.onload = function() {
+  window.scrollTo(0, 0);
+};
 </script>
 
 </body>
