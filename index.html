@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MATELOG</title>
 
-<link rel="icon" href="img/Nico.png" type="image/png">
+<link rel="icon" href="img/Octavio.png" type="image/png">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -254,7 +254,48 @@ footer{
   text-align:center;
   padding:25px;
 }
+/* EQUIPO */
 
+.team-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+  margin-top:40px;
+}
+
+.team-card{
+  background:white;
+  border-radius:25px;
+  padding:30px;
+  text-align:center;
+  box-shadow:0 15px 35px rgba(0,0,0,0.1);
+  transition:0.4s;
+}
+
+.team-card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+}
+
+.team-card img{
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:50%;
+  margin-bottom:15px;
+  border:4px solid #00b4d8;
+}
+
+.team-card h3{
+  color:#0077b6;
+  margin-bottom:10px;
+}
+
+.team-card .role{
+  font-weight:600;
+  color:#0096c7;
+  margin-bottom:15px;
+}
 
 
 </style>
@@ -266,7 +307,7 @@ footer{
   <div class="overlay">
 
     <!-- LOGO AGREGADO -->
-    <img src="img/pandilla.png" class="logo">
+    <img src="img/logoH.png" class="logo">
 
     <h1>MATELOG</h1>
     <p>Aprende lógica matemática como nunca antes</p>
@@ -279,7 +320,7 @@ footer{
 <section id="info">
   <h2>¿Qué es MATELOG?</h2>
   <p style="text-align:center;max-width:700px;margin:auto">
-    Una app educativa interactiva para aprender lógica matemática fácilmente.
+    MATELOG es una app educativa en desarrollo que busca hacer el aprendizaje de la lógica matemática más visual, práctico y fácil de entender. Además, pretende integrar un tutor con inteligencia artificial que acompañe a los estudiantes, resolviendo dudas y mejorando la experiencia de aprendizaje de forma interactiva y dinámica.
   </p>
 </section>
 
@@ -294,7 +335,7 @@ footer{
           <h3>Bubi</h3>
         </div>
         <div class="flip-back">
-          <p>Experto en lógica básica 🧠</p>
+          <p>Bubi es el compañero lúdico de Matelog. Convierte el aprendizaje en un juego, animando a los estudiantes a practicar, volver a intentarlo y divertirse mientras resuelven problemas.</p>
         </div>
       </div>
     </div>
@@ -306,7 +347,9 @@ footer{
           <h3>Octavio</h3>
         </div>
         <div class="flip-back">
-          <p>Maestro de los retos difíciles 🔥</p>
+          <p>Octavio es el pulpo mascota de Matelog que hace las matemáticas más divertidas.
+Sus ocho brazos representan creatividad, lógica y aprendizaje.
+          </p>
         </div>
       </div>
     </div>
@@ -318,7 +361,7 @@ footer{
           <h3>Lumo</h3>
         </div>
         <div class="flip-back">
-          <p>Ilumina tu aprendizaje 💡</p>
+          <p>Lumo es el profesor del equipo Matelog. Explica los conceptos paso a paso y ayuda a los estudiantes a comprender la lógica y las matemáticas con ejemplos claros.</p>
         </div>
       </div>
     </div>
@@ -330,7 +373,8 @@ footer{
           <h3>Nico</h3>
         </div>
         <div class="flip-back">
-          <p>Ilumina tu aprendizaje 💡</p>
+          <p>Nico ayuda a los estudiantes a seguir su progreso en Matelog.
+Celebra sus logros y los motiva a seguir aprendiendo.</p>
         </div>
       </div>
     </div>
@@ -404,20 +448,88 @@ footer{
 
 
 <section>
-  <h2>Desarrolladora</h2>
+  <h2>Equipo de Desarrollo</h2>
 
-  <div class="card" style="max-width:600px;margin:auto">
+  <div class="team-container">
 
-    <img src="img/desarrolladora.png" style="width:120px;border-radius:50%;margin-bottom:15px;">
+    <!-- PERSONA 1 -->
+    <div class="team-card">
+      <img src="img/desarrolladora.png" alt="Karla Rivera">
 
-    <h3>Karla Rivera</h3>
-    <p><strong>Estudiante de Ingeniería En Tecnoligas de la Información y Comunicaciones </strong></p>
+      <h3>Karla Rivera</h3>
 
-    <p style="margin-top:15px">
-     Estudiante del Instituto Tecnológico de Tlalpan, cursa la carrera de Ingeniería en Tecnologías de la Información y Comunicaciones, con especialidad en Inteligencia de Datos. Apasionada por la tecnología y la educación, desarrolló MATELOG con el propósito de hacer la lógica matemática más accesible, interactiva y divertida para todos.
+      <p class="role">
+        Ingeniería en Tecnologías de la Información y Comunicaciones
+      </p>
 
-Este proyecto forma parte de su residencia profesional, requisito para la obtención de su título, y fue desarrollado en colaboración entre el Instituto Tecnológico de Tlalpan y el Centro Nacional de Investigación y Desarrollo Tecnológico (CENIDET), fortaleciendo así la vinculación académica y la innovación aplicada.
-    </p>
+      <p>
+        Apasionada por la tecnología y la educación.
+        Desarrolladora principal de MATELOG APP y responsable
+        del diseño educativo e integración de IA.
+      </p>
+    </div>
+
+    <!-- PERSONA 2 -->
+    <div class="team-card">
+      <img src="img/azu.png" alt="Integrante 2">
+
+      <h3>Dra. Azucena Montes Rendón</h3>
+
+      <p class="role">
+        Acesora Interna
+      </p>
+
+      <p>
+        Brinda orientación, supervisión y seguimiento al desarrollo del
+        proyecto académico de residencias dentro de la institución.
+      </p>
+    </div>
+
+    <!-- PERSONA 3 -->
+    <div class="team-card">
+      <img src="img/jaz.png" alt="Integrante 3">
+
+      <h3>Dra. María Yasmín Hernadez Perez</h3>
+
+      <p class="role">
+        Asesora Externa
+      </p>
+
+      <p>
+       Proporciona asesoría especializada y apoyo académico 
+       para fortalecer el desarrollo y cumplimiento de los objetivos del proyecto de residencias.
+      </p>
+    </div>
+
+    <!-- PERSONA 4 -->
+    <div class="team-card">
+      <img src="img/victor.png" alt="Integrante 4">
+
+      <h3>Ing. Victor Manuel Dominguez Lara</h3>
+
+      <p class="role">
+        Estudiante de Maestría en Computación.
+      </p>
+
+      <p>
+       Desarrollador de MATELOG WEB, enfocado en la creación e implementación de soluciones tecnológicas para la gestión y optimización de procesos.
+      </p>
+    </div>
+
+    <!-- PERSONA 5 -->
+    <div class="team-card">
+      <img src="img/man.png" alt="Integrante 5">
+
+      <h3>Ing. Manuel Augusto Rojas Mejia</h3>
+
+      <p class="role">
+        Ingeniería en Tecnologías de la Información y Comunicaciones
+      </p>
+
+      <p>
+       Participa como analista de datos y apoyo externo del proyecto, contribuyendo en la organización e interpretación de información para fortalecer el desarrollo de la plataforma.
+      </p>
+    </div>
 
   </div>
 </section>
