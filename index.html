@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>MATELOG</title>
 
 <link rel="icon" href="img/Octavio.png" type="image/png">
@@ -10,55 +11,89 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+html{
+  scroll-behavior:smooth;
+}
 
 body{
-  background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea, #4dd0e1);
-  background-attachment: fixed;
+  background:linear-gradient(135deg,#e0f7fa,#b2ebf2,#80deea,#4dd0e1);
+  background-attachment:fixed;
   color:#023047;
+  overflow-x:hidden;
 }
 
 /* HERO */
+
 .hero{
   height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
+
   background:
-    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
-    url('img/fondo.png');
+  linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.75)),
+  url('img/fondo.png');
+
   background-size:cover;
+  background-position:center;
+  position:relative;
 }
 
 .overlay{
   text-align:center;
-  background:rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.08);
   backdrop-filter:blur(12px);
-  padding:50px;
-  border-radius:30px;
+  padding:60px;
+  border-radius:35px;
   color:white;
+  width:90%;
+  max-width:850px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.3);
 }
 
-/* LOGO NUEVO */
 .logo{
-  width:80px;
+  width:95px;
+  margin-bottom:20px;
+}
+
+.overlay h1{
+  font-size:4rem;
   margin-bottom:15px;
+}
+
+.overlay p{
+  font-size:1.2rem;
   opacity:0.95;
 }
 
-.overlay h1{font-size:3.5rem}
+/* BOTONES */
 
-/* BOTÓN */
 .btn{
-  margin-top:20px;
-  padding:15px 35px;
+  margin-top:30px;
+  padding:18px 45px;
   border:none;
-  border-radius:40px;
-  background:#00b4d8;
+  border-radius:50px;
+  background:linear-gradient(135deg,#00b4d8,#0077b6);
   color:white;
+  font-size:1rem;
+  font-weight:600;
   cursor:pointer;
   position:relative;
   overflow:hidden;
+  transition:0.35s;
+}
+
+.btn:hover{
+  transform:translateY(-5px) scale(1.03);
+  box-shadow:0 15px 30px rgba(0,0,0,0.25);
 }
 
 .btn::after{
@@ -68,7 +103,12 @@ body{
   left:-100%;
   width:100%;
   height:100%;
-  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
   transition:0.5s;
 }
 
@@ -77,63 +117,66 @@ body{
 }
 
 /* SECCIONES */
+
 section{
-  padding:90px 10%;
-  animation: fadeInUp 1s ease;
+  padding:110px 10%;
 }
 
-h2{text-align:center;margin-bottom:40px}
+h2{
+  text-align:center;
+  margin-bottom:45px;
+  font-size:2.7rem;
+  color:#023047;
+}
 
-@keyframes fadeInUp{
-  from{
-    opacity:0;
-    transform:translateY(30px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+.section-text{
+  text-align:center;
+  max-width:850px;
+  margin:auto;
+  line-height:1.9;
+  font-size:1.05rem;
 }
 
 /* CARDS */
+
 .card-container{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:30px;
 }
 
 .card{
   background:white;
-  padding:30px;
-  border-radius:25px;
+  padding:35px;
+  border-radius:30px;
   text-align:center;
-  box-shadow:0 15px 35px rgba(0,0,0,0.1);
+  box-shadow:0 15px 35px rgba(0,0,0,0.12);
+  transition:0.35s;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.18);
 }
 
 /* MASCOTAS */
+
 .flip-container{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:30px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:35px;
 }
 
 .flip-card{
   perspective:1000px;
   cursor:pointer;
-  border-radius:20px;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.flip-card:hover{
-  transform: translateY(-10px) scale(1.03);
-  box-shadow:0 20px 40px rgba(0,0,0,0.2);
 }
 
 .flip-inner{
   position:relative;
   width:100%;
-  height:260px;
-  transition:transform 0.6s;
+  height:300px;
+  transition:transform 0.7s;
   transform-style:preserve-3d;
 }
 
@@ -141,47 +184,57 @@ h2{text-align:center;margin-bottom:40px}
   transform:rotateY(180deg);
 }
 
-.flip-front, .flip-back{
+.flip-front,
+.flip-back{
   position:absolute;
   width:100%;
   height:100%;
-  border-radius:20px;
+  border-radius:30px;
   backface-visibility:hidden;
   display:flex;
-  align-items:center;
-  justify-content:center;
   flex-direction:column;
-  padding:20px;
+  justify-content:center;
+  align-items:center;
+  padding:25px;
 }
 
 .flip-front{
-  background: linear-gradient(145deg, #ffffff, #e6f7ff);
-  border: 2px solid #00b4d8;
+  background:linear-gradient(145deg,#ffffff,#e9f9ff);
+  border:2px solid #00b4d8;
+  box-shadow:0 15px 35px rgba(0,0,0,0.1);
 }
 
 .flip-front img{
-  width:100px;
-  margin-bottom:10px;
+  width:120px;
+  margin-bottom:15px;
+}
+
+.flip-front h3{
+  color:#0077b6;
 }
 
 .flip-back{
-  background: linear-gradient(145deg, #00b4d8, #0077b6);
+  background:linear-gradient(145deg,#00b4d8,#023e8a);
   color:white;
   transform:rotateY(180deg);
+  text-align:center;
+  line-height:1.7;
 }
 
 /* GALERÍA */
+
 .gallery-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:25px;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:30px;
 }
 
 .gallery-item{
-  height:260px;
-  border-radius:25px;
+  height:320px;
+  border-radius:30px;
   overflow:hidden;
   cursor:pointer;
+  box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
 
 .gallery-item img{
@@ -192,18 +245,18 @@ h2{text-align:center;margin-bottom:40px}
 }
 
 .gallery-item:hover img{
-  transform:scale(1.1);
-
+  transform:scale(1.12);
 }
 
 /* LIGHTBOX */
+
 .lightbox{
   position:fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
-  background:rgba(0,0,0,0.9);
+  background:rgba(0,0,0,0.92);
   display:none;
   align-items:center;
   justify-content:center;
@@ -213,248 +266,562 @@ h2{text-align:center;margin-bottom:40px}
 .lightbox img{
   max-width:90%;
   max-height:90%;
-  border-radius:20px;
+  border-radius:25px;
 }
 
 .lightbox span{
   position:absolute;
-  top:20px;
-  right:30px;
-  font-size:40px;
+  top:25px;
+  right:35px;
+  font-size:45px;
   color:white;
   cursor:pointer;
 }
 
+/* EQUIPO */
+
+.team-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:35px;
+}
+
+.team-card{
+  background:white;
+  border-radius:30px;
+  padding:35px;
+  text-align:center;
+  box-shadow:0 15px 35px rgba(0,0,0,0.12);
+  transition:0.35s;
+}
+
+.team-card:hover{
+  transform:translateY(-10px);
+}
+
+.team-card img{
+  width:130px;
+  height:130px;
+  object-fit:cover;
+  border-radius:50%;
+  margin-bottom:18px;
+  border:5px solid #00b4d8;
+}
+
+.team-card h3{
+  color:#0077b6;
+  margin-bottom:12px;
+}
+
+.team-card .role{
+  color:#0096c7;
+  font-weight:600;
+  margin-bottom:15px;
+}
+
 /* DESCARGA */
+
 .download{
   text-align:center;
-  padding:140px 20px;
+  padding:120px 25px;
   border-radius:40px;
-  color:white;
+
   background:
-    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
-    url('img/fondo.png');
+  linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.75)),
+  url('img/fondo.png');
+
   background-size:cover;
   background-position:center;
+
+  color:white;
+
+  box-shadow:0 20px 45px rgba(0,0,0,0.18);
+}
+
+.download h2{
+  color:white;
+}
+
+.download p{
+  margin-top:10px;
+  font-size:1.1rem;
 }
 
 .download button{
-  padding:18px 60px;
+  margin-top:35px;
+  padding:18px 55px;
   border:none;
   border-radius:50px;
   background:white;
   color:#0077b6;
-  font-weight:bold;
+  font-weight:700;
   cursor:pointer;
+  transition:0.35s;
 }
+
+.download button:hover{
+  transform:translateY(-5px);
+}
+
+/* EVALUACIÓN */
+
+#evaluacion{
+  padding:120px 8%;
+}
+
+.evaluation-box{
+
+  position:relative;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,180,216,0.95),
+      rgba(2,62,138,0.95)
+    ),
+    url('img/fondo.png');
+
+  background-size:cover;
+  background-position:center;
+
+  border-radius:40px;
+
+  overflow:hidden;
+
+  padding:70px 50px;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.18);
+
+  color:white;
+}
+
+.evaluation-box::before{
+  content:'';
+
+  position:absolute;
+
+  width:350px;
+  height:350px;
+
+  background:rgba(255,255,255,0.08);
+
+  border-radius:50%;
+
+  top:-120px;
+  right:-120px;
+}
+
+.evaluation-box::after{
+  content:'';
+
+  position:absolute;
+
+  width:250px;
+  height:250px;
+
+  background:rgba(255,255,255,0.05);
+
+  border-radius:50%;
+
+  bottom:-100px;
+  left:-100px;
+}
+
+.evaluation-content{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  margin-bottom:50px;
+}
+
+.eval-tag{
+
+  display:inline-block;
+
+  background:rgba(255,255,255,0.15);
+
+  padding:10px 22px;
+
+  border-radius:30px;
+
+  margin-bottom:25px;
+
+  font-size:0.9rem;
+  font-weight:600;
+  letter-spacing:1px;
+
+  backdrop-filter:blur(8px);
+}
+
+.evaluation-content h2{
+  color:white;
+  font-size:3rem;
+  margin-bottom:25px;
+}
+
+.evaluation-content p{
+  max-width:800px;
+  margin:auto;
+  line-height:1.9;
+  font-size:1.05rem;
+}
+
+.eval-button{
+
+  display:inline-block;
+
+  margin-top:35px;
+
+  padding:18px 45px;
+
+  background:white;
+
+  color:#0077b6;
+
+  text-decoration:none;
+
+  border-radius:50px;
+
+  font-weight:700;
+
+  transition:0.35s;
+}
+
+.eval-button:hover{
+  transform:translateY(-5px) scale(1.03);
+
+  box-shadow:
+    0 15px 30px rgba(0,0,0,0.25);
+}
+
+/* FORMULARIO */
+
+.form-wrapper{
+
+  position:relative;
+
+  width:100%;
+
+  background:white;
+
+  padding:20px;
+
+  border-radius:30px;
+
+  overflow:hidden;
+
+  z-index:2;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.15);
+}
+
+.form-wrapper iframe{
+
+  width:100%;
+
+  min-height:1600px;
+
+  border:none;
+
+  border-radius:20px;
+
+  background:white;
+}
+
+/* FOOTER */
 
 footer{
   background:#023047;
   color:white;
   text-align:center;
-  padding:25px;
-}
-/* EQUIPO */
-
-.team-container{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:30px;
-  margin-top:40px;
-}
-
-.team-card{
-  background:white;
-  border-radius:25px;
   padding:30px;
-  text-align:center;
-  box-shadow:0 15px 35px rgba(0,0,0,0.1);
-  transition:0.4s;
+  font-size:1rem;
 }
 
-.team-card:hover{
-  transform:translateY(-10px);
-  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+  .overlay h1{
+    font-size:2.8rem;
+  }
+
+  h2{
+    font-size:2.1rem;
+  }
+
+  .evaluation-box{
+    padding:50px 25px;
+  }
+
+  .evaluation-content h2{
+    font-size:2.2rem;
+  }
+
+  .form-wrapper iframe{
+    min-height:1800px;
+  }
+
 }
 
-.team-card img{
-  width:120px;
-  height:120px;
-  object-fit:cover;
-  border-radius:50%;
-  margin-bottom:15px;
-  border:4px solid #00b4d8;
-}
+@media(max-width:600px){
 
-.team-card h3{
-  color:#0077b6;
-  margin-bottom:10px;
-}
+  section{
+    padding:90px 6%;
+  }
 
-.team-card .role{
-  font-weight:600;
-  color:#0096c7;
-  margin-bottom:15px;
-}
+  .overlay{
+    padding:35px 25px;
+  }
 
+  .overlay h1{
+    font-size:2.2rem;
+  }
+
+  .overlay p{
+    font-size:1rem;
+  }
+
+  h2{
+    font-size:1.8rem;
+  }
+
+  .gallery-item{
+    height:240px;
+  }
+
+  .evaluation-content h2{
+    font-size:1.8rem;
+  }
+
+  .evaluation-content p{
+    font-size:0.95rem;
+  }
+
+  .eval-button{
+    width:100%;
+    text-align:center;
+  }
+
+  .form-wrapper{
+    padding:10px;
+  }
+
+  .form-wrapper iframe{
+    min-height:1900px;
+  }
+
+}
 
 </style>
 </head>
 
 <body>
 
+<!-- HERO -->
+
 <header class="hero">
+
   <div class="overlay">
 
-    <!-- LOGO AGREGADO -->
     <img src="img/logoH.png" class="logo">
 
     <h1>MATELOG</h1>
-    <p>Aprende lógica matemática como nunca antes</p>
-    <button class="btn" onclick="scrollToSection()">Comenzar</button>
+
+    <p>
+      Aprende lógica matemática como nunca antes
+    </p>
+
+    <button class="btn" onclick="scrollToSection()">
+      Comenzar
+    </button>
+
   </div>
+
 </header>
 
 <main>
 
+<!-- INFO -->
+
 <section id="info">
+
   <h2>¿Qué es MATELOG?</h2>
-  <p style="text-align:center;max-width:700px;margin:auto">
+
+  <p class="section-text">
     MATELOG es una app educativa en desarrollo que busca hacer el aprendizaje de la lógica matemática más visual, práctico y fácil de entender. Además, pretende integrar un tutor con inteligencia artificial que acompañe a los estudiantes, resolviendo dudas y mejorando la experiencia de aprendizaje de forma interactiva y dinámica.
   </p>
+
 </section>
 
+<!-- MASCOTAS -->
+
 <section>
+
   <h2>Mascotas</h2>
+
   <div class="flip-container">
 
     <div class="flip-card" onclick="this.classList.toggle('active')">
+
       <div class="flip-inner">
+
         <div class="flip-front">
           <img src="img/Bubi.png">
           <h3>Bubi</h3>
         </div>
+
         <div class="flip-back">
-          <p>Bubi es el compañero lúdico de Matelog. Convierte el aprendizaje en un juego, animando a los estudiantes a practicar, volver a intentarlo y divertirse mientras resuelven problemas.</p>
+          <p>
+            Bubi es el compañero lúdico de Matelog. Convierte el aprendizaje en un juego y motiva a los estudiantes mientras resuelven desafíos.
+          </p>
         </div>
+
       </div>
+
     </div>
 
     <div class="flip-card" onclick="this.classList.toggle('active')">
+
       <div class="flip-inner">
+
         <div class="flip-front">
           <img src="img/Octavio.png">
           <h3>Octavio</h3>
         </div>
+
         <div class="flip-back">
-          <p>Octavio es el pulpo mascota de Matelog que hace las matemáticas más divertidas.
-Sus ocho brazos representan creatividad, lógica y aprendizaje.
+          <p>
+            Octavio representa creatividad, lógica y aprendizaje. Hace que las matemáticas sean más divertidas y dinámicas.
           </p>
         </div>
+
       </div>
+
     </div>
 
     <div class="flip-card" onclick="this.classList.toggle('active')">
+
       <div class="flip-inner">
+
         <div class="flip-front">
           <img src="img/Lumo.png">
           <h3>Lumo</h3>
         </div>
+
         <div class="flip-back">
-          <p>Lumo es el profesor del equipo Matelog. Explica los conceptos paso a paso y ayuda a los estudiantes a comprender la lógica y las matemáticas con ejemplos claros.</p>
+          <p>
+            Lumo explica conceptos paso a paso ayudando a comprender la lógica matemática mediante ejemplos claros.
+          </p>
         </div>
+
       </div>
+
     </div>
 
     <div class="flip-card" onclick="this.classList.toggle('active')">
+
       <div class="flip-inner">
+
         <div class="flip-front">
           <img src="img/Nico.png">
           <h3>Nico</h3>
         </div>
+
         <div class="flip-back">
-          <p>Nico ayuda a los estudiantes a seguir su progreso en Matelog.
-Celebra sus logros y los motiva a seguir aprendiendo.</p>
+          <p>
+            Nico acompaña el progreso de los estudiantes y celebra sus logros mientras aprenden.
+          </p>
         </div>
+
       </div>
+
     </div>
 
   </div>
+
 </section>
 
-<section> 
-   <h2>Galería</h2> <div class="gallery-grid">
-     <div class="gallery-item"><img src="img/pic1.png" onclick="openLightbox(this.src)"></div> 
-     <div class="gallery-item"><img src="img/mascotas.png" onclick="openLightbox(this.src)"></div> 
-    </div> 
-    <div class="lightbox" id="lightbox"> <span onclick="closeLightbox()">×</span> <img id="lightbox-img"> </div>
-  
-  </section>
-
+<!-- GALERÍA -->
 
 <section>
+
+  <h2>Galería</h2>
+
+  <div class="gallery-grid">
+
+    <div class="gallery-item">
+      <img src="img/pic1.png" onclick="openLightbox(this.src)">
+    </div>
+
+    <div class="gallery-item">
+      <img src="img/mascotas.png" onclick="openLightbox(this.src)">
+    </div>
+
+  </div>
+
+  <div class="lightbox" id="lightbox">
+
+    <span onclick="closeLightbox()">×</span>
+
+    <img id="lightbox-img">
+
+  </div>
+
+</section>
+
+<!-- OPINIONES -->
+
+<section>
+
   <h2>Opiniones</h2>
+
   <div class="card-container">
 
     <div class="card">
       <h3>Azusena Montes Rendon</h3>
       <p><strong>Asesora del Proyecto</strong></p>
-      <p>"La mejor forma de aprender lógica, súper clara y divertida."</p>
+      <p>
+        "La mejor forma de aprender lógica, súper clara y divertida."
+      </p>
       <p>⭐⭐⭐⭐⭐</p>
     </div>
 
     <div class="card">
       <h3>Manuel Rojas</h3>
       <p><strong>Ingeniero en Tics</strong></p>
-      <p>"Ideal para reforzar conceptos de clase. una expericnia agrabable"</p>
+      <p>
+        "Ideal para reforzar conceptos de clase. Una experiencia agradable."
+      </p>
       <p>⭐⭐⭐⭐⭐</p>
     </div>
 
     <div class="card">
       <h3>Katia Sugeili Aguirre Flores</h3>
       <p><strong>Estudiante</strong></p>
-      <p>"Muy intuitiva, las lecciones son excelentes."</p>
-      <p>⭐⭐⭐⭐</p>
-    </div>
-  </div>
-<!--seccion 2 de opinions-->
-  <br>
-  <div class="card-container">
-
-    <div class="card">
-      <h3>Katia Sugeili Aguirre Flores</h3>
-      <p><strong>Estudiante</strong></p>
-      <p>"Muy intuitiva, las lecciones son excelentes."</p>
+      <p>
+        "Muy intuitiva, las lecciones son excelentes."
+      </p>
       <p>⭐⭐⭐⭐</p>
     </div>
 
-    <div class="card">
-      <h3>Katia Sugeili Aguirre Flores</h3>
-      <p><strong>Estudiante</strong></p>
-      <p>"Muy intuitiva, las lecciones son excelentes."</p>
-      <p>⭐⭐⭐⭐</p>
-    </div>
+  </div>
 
-    <div class="card">
-      <h3>Katia Sugeili Aguirre Flores</h3>
-      <p><strong>Estudiante</strong></p>
-      <p>"Muy intuitiva, las lecciones son excelentes."</p>
-      <p>⭐⭐⭐⭐</p>
-    </div>
-  </div>
-  </div>
 </section>
 
-
+<!-- EQUIPO -->
 
 <section>
+
   <h2>Equipo de Desarrollo</h2>
 
   <div class="team-container">
 
-    <!-- PERSONA 1 -->
     <div class="team-card">
-      <img src="img/desarrolladora.png" alt="Karla Rivera">
+
+      <img src="img/desarrolladora.png">
 
       <h3>Karla Rivera</h3>
 
@@ -463,114 +830,199 @@ Celebra sus logros y los motiva a seguir aprendiendo.</p>
       </p>
 
       <p>
-        Apasionada por la tecnología y la educación.
-        Desarrolladora principal de MATELOG APP y responsable
-        del diseño educativo e integración de IA.
+        Apasionada por la tecnología y la educación. Responsable del diseño educativo y desarrollo principal de MATELOG APP.
       </p>
+
     </div>
 
-    <!-- PERSONA 2 -->
     <div class="team-card">
-      <img src="img/azu.png" alt="Integrante 2">
+
+      <img src="img/azu.png">
 
       <h3>Dra. Azucena Montes Rendón</h3>
 
       <p class="role">
-        Acesora Interna
+        Asesora Interna
       </p>
 
       <p>
-        Brinda orientación, supervisión y seguimiento al desarrollo del
-        proyecto académico de residencias dentro de la institución.
+        Brinda orientación, supervisión y seguimiento académico al proyecto de residencias.
       </p>
+
     </div>
 
-    <!-- PERSONA 3 -->
     <div class="team-card">
-      <img src="img/jaz.png" alt="Integrante 3">
 
-      <h3>Dra. María Yasmín Hernadez Perez</h3>
+      <img src="img/jaz.png">
+
+      <h3>Dra. María Yasmín Hernández Pérez</h3>
 
       <p class="role">
         Asesora Externa
       </p>
 
       <p>
-       Proporciona asesoría especializada y apoyo académico 
-       para fortalecer el desarrollo y cumplimiento de los objetivos del proyecto de residencias.
+        Proporciona apoyo académico especializado para fortalecer el cumplimiento de los objetivos del proyecto.
       </p>
+
     </div>
 
-    <!-- PERSONA 4 -->
     <div class="team-card">
-      <img src="img/victor.png" alt="Integrante 4">
+
+      <img src="img/victor.png">
 
       <h3>Ing. Victor Manuel Dominguez Lara</h3>
 
       <p class="role">
-        Estudiante de Maestría en Computación.
+        Estudiante de Maestría en Computación
       </p>
 
       <p>
-       Desarrollador de MATELOG WEB, enfocado en la creación e implementación de soluciones tecnológicas para la gestión y optimización de procesos.
+        Desarrollador de MATELOG WEB enfocado en soluciones tecnológicas y optimización de procesos.
       </p>
+
     </div>
 
-    <!-- PERSONA 5 -->
     <div class="team-card">
-      <img src="img/man.png" alt="Integrante 5">
 
-      <h3>Ing. Manuel Augusto Rojas Mejia</h3>
+      <img src="img/man.png">
+
+      <h3>Ing. Manuel Augusto Rojas Mejía</h3>
 
       <p class="role">
         Ingeniería en Tecnologías de la Información y Comunicaciones
       </p>
 
       <p>
-       Participa como analista de datos y apoyo externo del proyecto, contribuyendo en la organización e interpretación de información para fortalecer el desarrollo de la plataforma.
+        Participa como analista de datos y apoyo externo del proyecto fortaleciendo el desarrollo de la plataforma.
       </p>
+
     </div>
 
   </div>
+
 </section>
 
+<!-- DESCARGA -->
+
 <section>
+
   <div class="download">
+
     <h2>Descarga MATELOG</h2>
-    <p>Empieza hoy a aprender lógica matemática</p>
+
+    <p>
+      Empieza hoy a aprender lógica matemática
+    </p>
+
     <a href="https://github.com/Mangust2022/listashop/raw/refs/heads/main/QRcode.apk" download>
-        <br>
-      <button>Descargar APK</button>
+
+      <button>
+        Descargar APK
+      </button>
+
     </a>
+
   </div>
+
+</section>
+
+<!-- EVALUACIÓN -->
+
+<section id="evaluacion">
+
+  <div class="evaluation-box">
+
+    <div class="evaluation-content">
+
+      <span class="eval-tag">
+        MATELOG FEEDBACK
+      </span>
+
+      <h2>
+        Evaluación de la Plataforma
+      </h2>
+
+      <p>
+        Tu opinión nos ayuda a mejorar MATELOG y crear una mejor experiencia de aprendizaje para todos los estudiantes.
+        Responde nuestra encuesta y ayúdanos a seguir creciendo.
+      </p>
+
+      <a 
+        href="https://forms.gle/CW3NSaf9mDabB4oH8"
+        target="_blank"
+        class="eval-button">
+
+        Responder Encuesta
+
+      </a>
+
+    </div>
+
+    <div class="form-wrapper">
+
+      <iframe 
+        src="https://docs.google.com/forms/d/e/1FAIpQLSeIng6PMz1KpbXt-BuZU0yckgYDc7sH00Jr9SHqwk_zL4tHqg/viewform?embedded=true"
+        loading="lazy">
+
+        Cargando…
+
+      </iframe>
+
+    </div>
+
+  </div>
+
 </section>
 
 </main>
 
-<footer>© 2026 MATELOG</footer>
+<footer>
+  © 2026 MATELOG
+</footer>
 
 <script>
+
+/* SCROLL */
+
 function scrollToSection(){
-  document.getElementById('info').scrollIntoView({behavior:'smooth'});
+
+  document.getElementById('info').scrollIntoView({
+    behavior:'smooth'
+  });
+
 }
 
+/* LIGHTBOX */
+
 function openLightbox(src){
-  document.getElementById('lightbox').style.display="flex";
-  document.getElementById('lightbox-img').src=src;
+
+  document.getElementById('lightbox').style.display = "flex";
+
+  document.getElementById('lightbox-img').src = src;
+
 }
 
 function closeLightbox(){
-  document.getElementById('lightbox').style.display="none";
+
+  document.getElementById('lightbox').style.display = "none";
+
 }
 
-/* VOLVER ARRIBA AL RECARGAR */
+/* REINICIAR SCROLL */
+
 window.onbeforeunload = function () {
-  window.scrollTo(0, 0);
+
+  window.scrollTo(0,0);
+
 };
 
-window.onload = function() {
-  window.scrollTo(0, 0);
+window.onload = function(){
+
+  window.scrollTo(0,0);
+
 };
+
 </script>
 
 </body>
