@@ -24,10 +24,52 @@ html{
 }
 
 body{
-  background:linear-gradient(135deg,#e0f7fa,#b2ebf2,#80deea,#4dd0e1);
+
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,0.35), transparent 25%),
+    radial-gradient(circle at bottom right, rgba(255,255,255,0.18), transparent 20%),
+    linear-gradient(
+      135deg,
+      #dff9ff,
+      #b8f2ff,
+      #80deea,
+      #4dd0e1,
+      #3bb4d8,
+      #0096c7
+    );
+
+  background-size:cover;
   background-attachment:fixed;
+
   color:#023047;
   overflow-x:hidden;
+
+  animation:bgMove 18s ease infinite;
+}
+
+@keyframes bgMove{
+
+  0%{
+    background-position:
+      0% 0%,
+      100% 100%,
+      0% 50%;
+  }
+
+  50%{
+    background-position:
+      20% 10%,
+      80% 90%,
+      100% 50%;
+  }
+
+  100%{
+    background-position:
+      0% 0%,
+      100% 100%,
+      0% 50%;
+  }
+
 }
 
 /* HERO */
@@ -530,6 +572,144 @@ h2{
   background:white;
 }
 
+/* BURBUJA SECRETA */
+
+.secret-bubble{
+
+  position:fixed;
+
+  bottom:18px;
+  right:18px;
+
+  width:28px;
+  height:28px;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,0.18);
+
+  backdrop-filter:blur(10px);
+
+  border:1px solid rgba(255,255,255,0.15);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:rgba(255,255,255,0.55);
+
+  font-size:12px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  z-index:999;
+
+  transition:0.3s;
+
+  box-shadow:
+    0 4px 15px rgba(0,0,0,0.08);
+}
+
+.secret-bubble:hover{
+
+  transform:scale(1.08);
+
+  background:rgba(255,255,255,0.28);
+
+  color:white;
+}
+
+.secret-card{
+
+  position:fixed;
+
+  bottom:60px;
+  right:18px;
+
+  width:260px;
+
+  background:rgba(255,255,255,0.12);
+
+  backdrop-filter:blur(18px);
+
+  border:1px solid rgba(255,255,255,0.15);
+
+  border-radius:25px;
+
+  padding:20px;
+
+  color:white;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.2);
+
+  z-index:999;
+
+  display:none;
+
+  animation:fadeSecret 0.35s ease;
+}
+
+.secret-card img{
+
+  width:75px;
+  height:75px;
+
+  object-fit:cover;
+
+  border-radius:50%;
+
+  border:3px solid rgba(255,255,255,0.5);
+
+  display:block;
+
+  margin:auto auto 15px;
+}
+
+.secret-card h3{
+
+  text-align:center;
+
+  font-size:1rem;
+
+  margin-bottom:8px;
+}
+
+.secret-role{
+
+  text-align:center;
+
+  opacity:0.85;
+
+  margin-bottom:12px;
+
+  font-size:0.9rem;
+}
+
+.secret-card p{
+
+  font-size:0.88rem;
+
+  line-height:1.6;
+
+  text-align:center;
+}
+
+@keyframes fadeSecret{
+
+  from{
+    opacity:0;
+    transform:translateY(15px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
 /* FOOTER */
 
 footer{
@@ -883,22 +1063,6 @@ footer{
 
     </div>
 
-    <div class="team-card">
-
-      <img src="img/man.png">
-
-      <h3>Ing. Manuel Augusto Rojas Mejía</h3>
-
-      <p class="role">
-        Ingeniería en Tecnologías de la Información y Comunicaciones
-      </p>
-
-      <p>
-        Participa como analista de datos y apoyo externo del proyecto fortaleciendo el desarrollo de la plataforma.
-      </p>
-
-    </div>
-
   </div>
 
 </section>
@@ -915,7 +1079,9 @@ footer{
       Empieza hoy a aprender lógica matemática
     </p>
 
-    <a href="https://pixeldrain.com/api/file/4i6BbpH5" download>
+    <a 
+      href="https://drive.google.com/file/d/1aNtMtnY72JNpRTBu1PXXK6b_5e5cslSI/view?usp=drive_link"
+      download="app-release.apk">
 
       <button>
         Descargar APK
@@ -981,6 +1147,34 @@ footer{
   © 2026 MATELOG
 </footer>
 
+<!-- BURBUJA SECRETA -->
+
+<div class="secret-bubble" onclick="toggleSecretCard()">
+
+  <span></span>
+
+</div>
+
+<div class="secret-card" id="secretCard">
+
+  <img src="img/man.png">
+
+  <h3>
+    Ing. Manuel Augusto Rojas Mejía
+  </h3>
+
+  <p class="secret-role">
+    Apoyo Externo
+  </p>
+
+  <p>
+    Participó únicamente como apoyo externo indirecto dentro del proyecto,
+    aportando observaciones y análisis complementarios sin afectar
+    directamente el resultado final de la plataforma.
+  </p>
+
+</div>
+
 <script>
 
 /* SCROLL */
@@ -1006,6 +1200,24 @@ function openLightbox(src){
 function closeLightbox(){
 
   document.getElementById('lightbox').style.display = "none";
+
+}
+
+/* BURBUJA SECRETA */
+
+function toggleSecretCard(){
+
+  const card = document.getElementById('secretCard');
+
+  if(card.style.display === "block"){
+
+    card.style.display = "none";
+
+  }else{
+
+    card.style.display = "block";
+
+  }
 
 }
 
